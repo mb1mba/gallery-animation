@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Grid, Column, Header } from "@/components";
 import { AnimatePresence } from "framer-motion";
-
+import { ReactLenis } from '@studio-freight/react-lenis'
 
 export default function Home() {
   const [currentLayout, setCurrentLayout] = useState(1);
 
   return (
-  <>
+  <ReactLenis root options={{ lerp: 0.03, duration: 2 }}>
     <Header setCurrentLayout={setCurrentLayout} />
-    <main className="overflow-hidden py-14 px-5">
+    <main className="overflow-hidden pt-14 px-5">
       <AnimatePresence mode="wait">
       {currentLayout === 1 ? (
       <Grid images={IMAGES} />
@@ -20,7 +20,7 @@ export default function Home() {
       )}
       </AnimatePresence>
     </main>
-  </>
+  </ReactLenis>
   );
 }
 

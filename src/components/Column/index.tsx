@@ -29,28 +29,38 @@ const Column: React.FC<ColumnProps> = ({ images }) => {
   const minimapScroll = useTransform(
     scrollYProgress, 
     [0, 1],
-    [0, -20000] 
+    [-16986,0] 
   );
-
-  console.log(imagesContainer.current)
 
   return (
     <section className="block" ref={container} style={{ position: 'relative' }}>
       <div id="scale">
-        <div className="flex flex-col items-center gap-4 relative" ref={imagesContainer}>
+        <motion.div 
+        initial={{ transform:"translateY(100vh)"}}
+        animate={{ transform:"translateY(0)"}}
+        transition={{ duration: 0.3, delay: 0.6 }}
+        className="flex flex-col items-center gap-4 relative will-change-transform" ref={imagesContainer}>
           {images.map((img, i) => (
-            <motion.div y={imagesContainerY}>
+            <motion.div style={{ y: imagesContainerY}}>
               <img key={img.url + i} src={img.url} height={"auto"} width={800} alt={`Image ${img.id}`}   />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-      <div className="sticky top-100 h-0 z-10 block">
+      <div className="sticky top-0 h-0 z-10 block">
         <div id="minimap-container" className="relative h-screen w-fit translate-y-1/2" style={{ left: "10vw"}}>
-          <div id="scope" className="border border-solid rounded-md h-[112px] w-24 absolute -top-2 -left-2 z-20"></div>
-          <motion.div ref={sideContainer} className="flex flex-col w-fit gap-4 relative will-change-transform" style={{y: minimapScroll}}>
+          <div id="scope" className='border border-solid rounded-md h-[112px] w-24 absolute top-1/2 -left-2 z-20' style={{ transform: 'translateY(-50%)' }}></div>
+          <motion.div ref={sideContainer} id="minimap" className='flex flex-col w-fit gap-4 relative will-change-transform' style={{ transform: `translateY(-16986px)` }}>
             {images.map((img, i) => (
-              <motion.img layoutId={`${img.id}`} alt="" key={img.url + i} src={img.url} className="w-20 h-24 object-cover" />
+              <motion.img 
+                layoutId={`${img.id}`} 
+                transition={{ delay: img.id * .04, ease: "easeInOut", duration: 0.3 }}
+                alt="" 
+                key={img.url + i} 
+                src={img.url} 
+                height={100}
+                width={100}
+                className="w-20 h-24 object-cover" />
             ))}
           </motion.div>
         </div>
