@@ -1,111 +1,135 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { Grid, Column, Header } from "@/components";
+import { useState, useRef, useLayoutEffect } from "react";
+import { Header, Grid, Column, Stack } from "@/components";
 import { AnimatePresence } from "framer-motion";
-import { ReactLenis } from '@studio-freight/react-lenis'
+import { ReactLenis } from '@studio-freight/react-lenis';
 
 export default function Home() {
   const [currentLayout, setCurrentLayout] = useState(1);
+  const [columnHeight, setColumnHeight] = useState(0);
+  const imagesContainerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (imagesContainerRef.current) {
+      console.log(imagesContainerRef)
+      setColumnHeight(imagesContainerRef.current.offsetHeight);
+    }
+  }, [currentLayout]);
 
   return (
-  <ReactLenis root options={{ lerp: 0.03, duration: 2 }}>
-    <Header setCurrentLayout={setCurrentLayout} />
-    <main className="overflow-hidden pt-14 px-5">
-      <AnimatePresence mode="wait">
-      {currentLayout === 1 ? (
-      <Grid images={IMAGES} />
-      ) : (
-        <Column images={IMAGES} />
-      )}
-      </AnimatePresence>
-    </main>
-  </ReactLenis>
+    <ReactLenis root options={{ lerp: 0.03, duration: 2 }}>
+      <Header setCurrentLayout={setCurrentLayout} />
+      <main className="relative min-h-screen overflow-hidden pt-14 px-5">
+        <AnimatePresence mode="wait">
+          {currentLayout === 1 && <Grid images={IMAGES} currentLayout={currentLayout} />}
+          {currentLayout === 2 && (
+            <div ref={imagesContainerRef}>
+              <Column images={IMAGES} currentLayout={currentLayout} ref={imagesContainerRef} columnHeight={columnHeight} />
+            </div>
+          )}
+          {currentLayout === 3 && <Stack images={IMAGES} currentLayout={currentLayout} />}
+        </AnimatePresence>
+      </main>
+    </ReactLenis>
   );
 }
 
 const IMAGES = [
   {
     id: 1,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Leaves",
+    url: "/image1.avif",
     row: 1,
     col: 1
   },
   {
     id: 2,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Boat",
+    url: "/image2.avif",
     row: 1,
     col: 3,
   },
   {
     id: 3,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Gameboy Connect",
+    url: "/image3.avif",
     row: 1,
     col: 8,
   },
   {
     id: 4,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Orpheum",
+    url: "/image4.avif",
     row: 1,
     col: 11,
   },
   {
     id: 5,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Plane",
+    url: "/image5.avif",
     row: 2,
     col: 1
   },
   {
     id: 6,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Blue",
+    url: "/image6.avif",
     row: 2,
     col: 5,
   },
   {
     id: 7,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Star",
+    url: "/image7.avif",
     row: 2,
     col: 13,
   },
   {
     id: 8,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Shibuya",
+    url: "/image8.avif",
     row: 2,
     col: 15,
   },
   {
     id: 9,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Hiking trip",
+    url: "/image9.avif",
     row: 3,
     col: 8,
   },
   {
     id: 10,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Leaves",
+    url: "/image10.avif",
     row: 3,
     col: 11,
   },
   {
     id: 11,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Sunset",
+    url: "/image11.avif",
     row: 4,
     col: 1,
   },
   {
     id: 12,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Parking",
+    url: "/image12.avif",
     row: 4,
     col: 11,
   },
   {
     id: 13,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Carrera",
+    url: "/image13.avif",
     row: 4,
     col: 13,
   },
   {
     id: 14,
-    url: "https://images.unsplash.com/photo-1722494285961-9bc4bb89ad93?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "New York",
+    url: "/image14.avif",
     row: 4,
     col: 16,
   }

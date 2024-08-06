@@ -15,11 +15,11 @@ const config: Config = {
       },
       gridTemplateColumns:
       {
-        "main": "repeat(25, 150)"
+        "main": "repeat(25, 150px)",
       },
       gridTemplateRows:
       {
-        "main": "repeat(auto, 1fr)"
+        "main": "repeat(5, auto)",
       }
     },
   },
