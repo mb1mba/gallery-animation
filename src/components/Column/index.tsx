@@ -14,7 +14,8 @@ type ColumnProps =  {
   prevLayout: number;
 }
 
-const Column = (({ images, prevLayout }) => {
+const Column: React.FC<ColumnProps> = ({ images, prevLayout }) => 
+{
   return (
     <>
       <ul className="max-w-[50%] z-[999]">
@@ -62,7 +63,8 @@ const Column = (({ images, prevLayout }) => {
       </section>
     </>
   );
-});
+};
+
 
 Column.displayName = "Column";
 
