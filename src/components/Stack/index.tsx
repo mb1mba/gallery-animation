@@ -26,14 +26,14 @@ const Column: React.FC<StackProps> = ({ images, currentLayout}) =>
         <AnimatePresence>
           {images.map((img) => 
           (
-            <div className="overflow-hidden" key={img.id}>
+            <div className="overflow-hidden xl:min-h-6 2xl:min-h-20" key={img.id}>
               <motion.li
-                initial={{ translateY: "100%" }}
-                animate={{ translateY: currentLayout !== 3 ? "100%" : "0%" }}
+                initial={{ translateY: "300%" }}
+                animate={{ translateY: currentLayout !== 3 ? "300%" : "0%" }}
                 transition={{ delay: img.id * .05, type: "spring", duration: 1, bounce: 0 }}
-                className="text-[50px] w-full translate-y-full"
+                className="text-3xl 2xl:text-[50px] w-full translate-y-full"
                 key={`${img.title}-${img.id}`}
-                >
+              >
                 <span
                   className="will-change-transform cursor-pointer "
                   onMouseEnter={() => setActiveImage(img.id)}
@@ -57,13 +57,14 @@ const Column: React.FC<StackProps> = ({ images, currentLayout}) =>
             layoutId={img.title}
             transition={{ delay: img.id * .05, type: "spring", duration: 1, bounce: 0 }}
             key={`${img.id}-${img.title}`}
-            className="overflow-hidden max-h-[450px]"
+            className="overflow-hidden"
             >
             <Image 
               src={img.url}
               height={250}
               width={300}
               alt={img.title}
+              className="min-h-[500px] 2xl:w-[500px] 2xl:h-[700px]"
             />
           </motion.div>
         </li>

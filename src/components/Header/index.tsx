@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ setCurrentLayout, setPrevLayout, curren
         <li
           onClick={() => {
             setPrevLayout(currentLayout);
-            setCurrentLayout(1);
+              setCurrentLayout(1);
           }}
           className={`cursor-pointer p-5 hover:text-gray-400 ${currentLayout === 1 ? "italic" : ""}`}
         >

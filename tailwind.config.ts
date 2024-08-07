@@ -16,6 +16,7 @@ const config: Config = {
       gridTemplateColumns:
       {
         "main": "repeat(25, 150px)",
+        "main-s": "repeat(16, auto)"
       },
       gridTemplateRows:
       {

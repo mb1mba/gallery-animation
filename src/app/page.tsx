@@ -11,11 +11,17 @@ export default function Home() {
   return (
     <ReactLenis root options={{ lerp: 0.03, duration: 2 }}>
       <Header setCurrentLayout={setCurrentLayout} setPrevLayout={setPrevLayout} currentLayout={currentLayout}/>
-      <main className="relative min-h-screen overflow-hidden pt-14 px-5">
+      <main className="relative min-h-screen h-screen overflow-hidden pt-14 px-5 ">
         <AnimatePresence mode="wait">
-          { currentLayout === 1 && <Grid images={IMAGES}  prevLayout={prevLayout} /> }
-          { currentLayout === 2 && <Column images={IMAGES} prevLayout={prevLayout} /> }
-          { currentLayout === 3 && <Stack images={IMAGES} currentLayout={currentLayout} prevLayout= {prevLayout}/>}
+          <section className="hidden lg:block lg:h-full h-full overflow-hidden">
+            { currentLayout === 1 && <Grid images={IMAGES}  prevLayout={prevLayout} /> }
+            { currentLayout === 2 && <Column images={IMAGES} prevLayout={prevLayout} /> }
+            { currentLayout === 3 && <Stack images={IMAGES} currentLayout={currentLayout} prevLayout= {prevLayout}/>}
+          </section>
+
+          <section className="block lg:hidden">
+            <h1>You need to go on greater screen</h1>
+          </section>
         </AnimatePresence>
       </main>
     </ReactLenis>

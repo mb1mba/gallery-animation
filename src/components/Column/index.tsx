@@ -1,4 +1,3 @@
-import { forwardRef, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -15,19 +14,19 @@ type ColumnProps =  {
   prevLayout: number;
 }
 
-const Column = forwardRef<HTMLDivElement, ColumnProps>(({ images, prevLayout }, ref) => {
+const Column = (({ images, prevLayout }) => {
   return (
     <>
       <ul className="max-w-[50%] z-[999]">
             {images.map((img) => 
             (
-              <div className="overflow-hidden"  key={img.id}>
+              <div className="overflow-hidden xl:min-h-6 2xl:min-h-20" key={img.id}>
                 <motion.li
                   key={img.title}
-                  initial={{translateY: prevLayout !== 3 ? "100%" : 0}}
-                  animate={{translateY: "100%"}}
+                  initial={{translateY: prevLayout !== 3 ? "300%" : 0}}
+                  animate={{translateY: "300%"}}
                   transition={{ delay: img.id * .05, type: "spring", duration: 1, bounce: 0 }}
-                  className="text-[50px] w-full "
+                  className="text-3xl xl:text-[50px] w-full translate-y-full"
                   layoutId={`${img.id}_${img.title}`}
                 >
                   <span

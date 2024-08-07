@@ -21,13 +21,13 @@ const Grid: React.FC<GridProps> = ({ images, prevLayout }) =>
     <ul className="max-w-[50%] z-[999]">
       {images.map((img) => 
       (
-        <div className="overflow-hidden" key={img.id}>
+        <div className="overflow-hidden xl:min-h-6 2xl:min-h-20" key={img.id}>
           <motion.li
             key={img.title}
-            initial={{translateY: prevLayout !== 3 ? "100%" : 0}}
-            animate={{translateY: "100%"}}
+            initial={{translateY: prevLayout !== 3 ? "300%" : 0}}
+            animate={{translateY: "300%"}}
             transition={{ delay: img.id * .05, type: "spring", duration: 1, bounce: 0 }}
-            className="text-[50px] w-full "
+            className="text-3xl 2xl:text-[50px] w-full translate-y-full"
             layoutId={`${img.id}_${img.title}`}
           >
             <span
@@ -40,7 +40,7 @@ const Grid: React.FC<GridProps> = ({ images, prevLayout }) =>
       ))}
     </ul>
 
-    <ul className="grid grid-cols-main gap-y-14 grid-rows-main absolute top-14">
+    <ul className="grid grid-cols-main-s 2xl:grid-cols-main gap-y-14 2xl:grid-rows-main absolute top-4 2xl:top-20 w-full">
       {images.map((img) => 
       (
         <motion.li
@@ -53,6 +53,7 @@ const Grid: React.FC<GridProps> = ({ images, prevLayout }) =>
           <motion.div
             transition={{ delay: img.id * .05, type: "spring", duration: 1, bounce: 0 }}
             layoutId={img.title}
+            className=""
           >
             <Image
               src={img.url}
@@ -60,7 +61,7 @@ const Grid: React.FC<GridProps> = ({ images, prevLayout }) =>
               width={175}
               key={img.title}
               alt={img.title}
-              style={{maxHeight: "260px"}}
+              className=" h-24 w-24 2xl:h-auto 2xl:w-auto max-h-[260px]"
             />
           </motion.div>
 
