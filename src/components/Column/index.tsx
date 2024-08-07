@@ -1,8 +1,8 @@
-import { useRef, forwardRef, RefObject, useLayoutEffect, useState } from "react";
+import { forwardRef, useRef } from "react";
 import Image from "next/image";
-import { motion, useTransform, useScroll } from "framer-motion";
+import { motion } from "framer-motion";
 
-interface ImageProps {
+type ImageProps = {
   id: number;
   url: string;
   row?: number;
@@ -10,99 +10,58 @@ interface ImageProps {
   title: string;
 }
 
-interface ColumnProps {
+type ColumnProps =  {
   images: ImageProps[];
-  currentLayout?: number;
-  columnHeight: number;
+  prevLayout: number;
 }
 
-const Column = forwardRef<HTMLDivElement, ColumnProps>(({ images, columnHeight, currentLayout }, ref) => {
-  const container = useRef<HTMLDivElement>(null);
-  const sideContainer = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState(0);
-  const scrollTargetRef = ref as RefObject<HTMLDivElement>;
-
-  const { scrollYProgress } = useScroll({
-    target: scrollTargetRef,
-    offset: ["start end", "end start"],
-    layoutEffect: false, 
-  });
-
-  const imagesContainerY = useTransform(
-    scrollYProgress, 
-    [0, 1], 
-    [0, 100]
-  );
-
-  const minimapScroll = useTransform(
-    scrollYProgress, 
-    [0, 1],
-    [-columnHeight, 0]
-  );
-
-  useLayoutEffect(() => {
-    if (scrollTargetRef.current) {
-      setHeight(scrollTargetRef.current?.clientHeight)
-      console.log(scrollTargetRef.current?.clientHeight)
-    }
-  }, [currentLayout]);
-
-
+const Column = forwardRef<HTMLDivElement, ColumnProps>(({ images, prevLayout }, ref) => {
   return (
-    <section className="block" ref={container} style={{ position: 'relative' }}>
-      <div id="scale">
-        <ul className="flex flex-col items-center gap-4 relative will-change-transform">
-          {images.map((img, i) => (
-            <motion.li
-              key={img.url + i}
-              style={{ y: imagesContainerY }}
-            >
-              <motion.div
-                initial={{ transform: "translateY(200%)" }}
-                animate={{ transform: "translateY(0)" }}
-                transition={{ delay: .5, duration: 1.5, ease: [.075, .82, .165, 1] }}
-                className="will-change-transform"
-              >
-                <Image
-                  priority
-                  src={img.url} 
-                  alt={`Image ${img.id}`}
-                  height={700}
-                  width={800}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                  }}
-                />
-              </motion.div>
-            </motion.li>
-          ))}
-        </ul>
-      </div>
-      
-      <div className="sticky top-0 h-0 z-10 block">
-        <div id="minimap-container" className="relative h-screen w-fit translate-y-1/2" style={{ left: "10vw" }}>
-          <div id="scope" className='border border-solid rounded-md h-[112px] w-24 absolute top-1/2 -left-2 z-20' style={{ transform: 'translateY(-50%)' }}></div>
-          <motion.div ref={sideContainer} id="minimap" className='flex flex-col w-fit gap-4 relative' style={{ transform: `translateY(-${columnHeight}px)` }}>
+    <>
+      <ul className="max-w-[50%] z-[999]">
+            {images.map((img) => 
+            (
+              <div className="overflow-hidden">
+                <motion.li
+                  key={img.title}
+                  initial={{translateY: prevLayout !== 3 ? "100%" : 0}}
+                  animate={{translateY: "100%"}}
+                  transition={{ delay: img.id * .05, type: "spring", duration: 1, bounce: 0 }}
+                  className="text-[50px] w-full "
+                  layoutId={`${img.id}_${img.title}`}
+                >
+                  <span
+                    className="will-change-transform cursor-pointer"
+                  >
+                    {img.title}
+                  </span>
+                  </motion.li>
+              </div>
+            ))}
+      </ul>
+        
+      <section className="block absolute top-0">
+        <div id="minimap-container" className="relative h-screen flex  items-center">
+          <motion.ul id="minimap" className='flex justify-center w-full gap-4 relative pr-5'>
             {images.map((img, i) => (
-              <motion.div 
-                key={img.title + img.id}
+              <motion.li 
+                key={`${img.id}-${img.title}`}
                 transition={{ delay: img.id * .04, type: "spring", duration: 1, bounce: 0 }}
                 layoutId={img.title}
               >
                 <Image
                   alt="" 
                   src={img.url} 
-                  height={100}
-                  width={100}
-                  className="w-20 h-24 object-cover"
+                  height={200}
+                  width={200}
+                  className="w-48 h-[200px] object-cover"
                 />
-              </motion.div>
+              </motion.li>
             ))}
-          </motion.div>
+          </motion.ul>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 });
 

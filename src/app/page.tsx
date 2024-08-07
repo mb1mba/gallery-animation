@@ -1,33 +1,21 @@
 "use client";
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState } from "react";
 import { Header, Grid, Column, Stack } from "@/components";
 import { AnimatePresence } from "framer-motion";
 import { ReactLenis } from '@studio-freight/react-lenis';
 
 export default function Home() {
   const [currentLayout, setCurrentLayout] = useState(1);
-  const [columnHeight, setColumnHeight] = useState(0);
-  const imagesContainerRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    if (imagesContainerRef.current) {
-      console.log(imagesContainerRef)
-      setColumnHeight(imagesContainerRef.current.offsetHeight);
-    }
-  }, [currentLayout]);
+  const [prevLayout, setPrevLayout] = useState(1);
 
   return (
     <ReactLenis root options={{ lerp: 0.03, duration: 2 }}>
-      <Header setCurrentLayout={setCurrentLayout} />
+      <Header setCurrentLayout={setCurrentLayout} setPrevLayout={setPrevLayout} currentLayout={currentLayout}/>
       <main className="relative min-h-screen overflow-hidden pt-14 px-5">
         <AnimatePresence mode="wait">
-          {currentLayout === 1 && <Grid images={IMAGES} currentLayout={currentLayout} />}
-          {currentLayout === 2 && (
-            <div ref={imagesContainerRef}>
-              <Column images={IMAGES} currentLayout={currentLayout} ref={imagesContainerRef} columnHeight={columnHeight} />
-            </div>
-          )}
-          {currentLayout === 3 && <Stack images={IMAGES} currentLayout={currentLayout} />}
+          { currentLayout === 1 && <Grid images={IMAGES}  prevLayout={prevLayout} /> }
+          { currentLayout === 2 && <Column images={IMAGES} prevLayout={prevLayout} /> }
+          { currentLayout === 3 && <Stack images={IMAGES} currentLayout={currentLayout} prevLayout= {prevLayout}/>}
         </AnimatePresence>
       </main>
     </ReactLenis>
@@ -100,7 +88,7 @@ const IMAGES = [
   },
   {
     id: 10,
-    title: "Leaves",
+    title: "Leaves II",
     url: "/image10.avif",
     row: 3,
     col: 11,
