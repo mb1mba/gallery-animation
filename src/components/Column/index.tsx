@@ -21,7 +21,7 @@ const Column = forwardRef<HTMLDivElement, ColumnProps>(({ images, prevLayout }, 
       <ul className="max-w-[50%] z-[999]">
             {images.map((img) => 
             (
-              <div className="overflow-hidden">
+              <div className="overflow-hidden"  key={img.id}>
                 <motion.li
                   key={img.title}
                   initial={{translateY: prevLayout !== 3 ? "100%" : 0}}
@@ -50,7 +50,7 @@ const Column = forwardRef<HTMLDivElement, ColumnProps>(({ images, prevLayout }, 
                 layoutId={img.title}
               >
                 <Image
-                  alt="" 
+                  alt={img.title}
                   src={img.url} 
                   height={200}
                   width={200}
@@ -64,5 +64,7 @@ const Column = forwardRef<HTMLDivElement, ColumnProps>(({ images, prevLayout }, 
     </>
   );
 });
+
+Column.displayName = "Column";
 
 export default Column;

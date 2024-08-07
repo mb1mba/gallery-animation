@@ -26,14 +26,14 @@ const Column: React.FC<StackProps> = ({ images, currentLayout}) =>
         <AnimatePresence>
           {images.map((img) => 
           (
-            <div className="overflow-hidden">
+            <div className="overflow-hidden" key={img.id}>
               <motion.li
-                key={img.title}
                 initial={{ translateY: "100%" }}
                 animate={{ translateY: currentLayout !== 3 ? "100%" : "0%" }}
                 transition={{ delay: img.id * .05, type: "spring", duration: 1, bounce: 0 }}
                 className="text-[50px] w-full translate-y-full"
-              >
+                key={`${img.title}-${img.id}`}
+                >
                 <span
                   className="will-change-transform cursor-pointer "
                   onMouseEnter={() => setActiveImage(img.id)}
@@ -73,5 +73,7 @@ const Column: React.FC<StackProps> = ({ images, currentLayout}) =>
     </>
   )
 }
+
+Column.displayName = "Column";
 
 export default Column;

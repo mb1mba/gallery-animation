@@ -21,7 +21,7 @@ const Grid: React.FC<GridProps> = ({ images, prevLayout }) =>
     <ul className="max-w-[50%] z-[999]">
       {images.map((img) => 
       (
-        <div className="overflow-hidden">
+        <div className="overflow-hidden" key={img.id}>
           <motion.li
             key={img.title}
             initial={{translateY: prevLayout !== 3 ? "100%" : 0}}
@@ -70,5 +70,8 @@ const Grid: React.FC<GridProps> = ({ images, prevLayout }) =>
   </>
   );
 };
+
+Grid.displayName = "Grid";
+
 
 export default Grid;
